@@ -1,0 +1,114 @@
+<div class="container-fluid py-4 px-3 bg-light min-vh-100">
+  
+  <div class="d-flex align-items-center mb-4">
+    <a [routerLink]="['/home']" class="text-dark me-3 text-decoration-none p-1">
+      <i class="bi bi-arrow-left fs-3"></i>
+    </a>
+    <h4 class="fw-bold mb-0">Mon Profil</h4>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+    <div class="card-body p-4 text-center bg-white position-relative">
+      
+      <button class="btn btn-light rounded-circle position-absolute top-0 end-0 mt-3 me-3 border shadow-sm" 
+              style="width: 40px; height: 40px;"
+              data-bs-toggle="modal" 
+              data-bs-target="#editProfileModal">
+        <i class="bi bi-pencil-fill text-primary"></i>
+      </button>
+
+      <div class="bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
+           style="width: 85px; height: 85px;">
+        <i class="bi bi-person-fill fs-1"></i>
+      </div>
+      
+      <h5 class="fw-bold mb-1">Ahmed Mansouri</h5>
+    </div>
+
+    <div class="card-body p-0 border-top bg-white">
+      <div class="p-3 border-bottom border-light">
+        <small class="text-muted d-block text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Email</small>
+        <span class="fw-medium">ahmed.m&#64;autoecole.dz</span>
+      </div>
+
+      <div class="p-3 border-bottom border-light">
+        <small class="text-muted d-block text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Téléphone</small>
+        <span class="fw-medium">0550 12 34 56</span>
+      </div>
+
+      <div class="p-3 border-bottom border-light">
+        <small class="text-muted d-block text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Date d'embauche</small>
+        <span class="fw-medium text-secondary">15 Septembre 2024</span>
+      </div>
+
+      <div class="p-3 d-flex justify-content-between align-items-center">
+        <div>
+          <small class="text-muted d-block text-uppercase fw-bold mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Mot de passe</small>
+          <span class="fw-medium">••••••••••••</span>
+        </div>
+        <button class="btn btn-sm btn-link text-primary fw-bold text-decoration-none" 
+                data-bs-toggle="modal" 
+                data-bs-target="#passwordModal">
+          Changer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered px-3">
+      <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h6 class="modal-title fw-bold mx-auto text-dark">Modifier les informations</h6>
+        </div>
+        <div class="modal-body p-4 pt-2">
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Nom & Prénom</label>
+            <input type="text" class="form-control bg-light border-0 py-2" value="Ahmed Mansouri">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Email</label>
+            <input type="email" class="form-control bg-light border-0 py-2" value="ahmed.m@autoecole.dz">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Numéro</label>
+            <input type="tel" class="form-control bg-light border-0 py-2" value="0550 12 34 56">
+          </div>
+          <div class="d-grid gap-2 mt-4">
+            <button class="btn btn-primary rounded-pill py-2 fw-bold" data-bs-dismiss="modal">Enregistrer</button>
+            <button class="btn btn-light rounded-pill py-2 text-muted" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered px-3">
+      <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h6 class="modal-title fw-bold mx-auto text-dark">Changer le mot de passe</h6>
+        </div>
+        <div class="modal-body p-4 pt-2">
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Ancien mot de passe</label>
+            <input type="password" class="form-control bg-light border-0 py-2" placeholder="••••••••">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Nouveau mot de passe</label>
+            <input type="password" class="form-control bg-light border-0 py-2" placeholder="Minimum 8 caractères">
+          </div>
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-muted">Confirmer le nouveau mot de passe</label>
+            <input type="password" class="form-control bg-light border-0 py-2" placeholder="Répéter le mot de passe">
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary rounded-pill py-2 fw-bold" data-bs-dismiss="modal">Mettre à jour</button>
+            <button class="btn btn-light rounded-pill py-2 text-muted" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

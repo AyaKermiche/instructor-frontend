@@ -1,0 +1,346 @@
+<!-- Messages de notification -->
+<div
+  *ngIf="successMessage"
+  class="alert alert-success text-center fade show"
+  role="alert"
+>
+  {{ successMessage }}
+</div>
+<div
+  *ngIf="errorMessage"
+  class="alert alert-danger text-center fade show"
+  role="alert"
+>
+  {{ errorMessage }}
+</div>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Gestion des abonnements</h3>
+    <button
+      class="btn btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#addBoutiqueModal"
+      (click)="openAddSubscriptionModal()"
+    >
+      + Ajouter
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered text-center align-middle">
+      <thead class="table-primary">
+        <tr>
+          <td>ID</td>
+          <td>Store</td>
+          <td>Date début</td>
+          <td>Date fin</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subscription of subscriptions">
+          <td>{{ subscription.id }}</td>
+          <td>
+            <span *ngIf="isStore(subscription.store_id)">
+              {{ subscription.store_id.name }}
+            </span>
+
+            <span *ngIf="!isStore(subscription.store_id)">
+              {{ subscription.store_id }}
+            </span>
+          </td>
+
+          <td>{{ subscription.start_date }}</td>
+          <td>{{ subscription.end_date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMATION ACTIVER/DESACTIVER -->
+<div
+  class="modal fade"
+  id="confirmModal"
+  tabindex="-1"
+  aria-labelledby="confirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmation</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ confirmMessage }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button class="btn btn-primary">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AJOUT Abonnement -->
+<div
+  class="modal fade"
+  id="addBoutiqueModal"
+  tabindex="-1"
+  aria-labelledby="addBoutiqueModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable"
+  >
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ step === 1 ? "Informations de base" : "Permissions" }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress rounded-0" style="height: 5px">
+        <div
+          class="progress-bar bg-primary"
+          role="progressbar"
+          [style.width]="step === 1 ? '50%' : '100%'"
+        ></div>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <!-- STEP 1 -->
+        <form *ngIf="step === 1" [formGroup]="subscriptionForm">
+          <div class="mb-3">
+            <label class="form-label">Boutique</label>
+            <select
+              class="form-select"
+              formControlName="store_id"
+              [ngClass]="{
+                'is-invalid':
+                  subscriptionForm.get('store_id')?.invalid &&
+                  subscriptionForm.get('store_id')?.touched,
+              }"
+            >
+              <option [value]="null" disabled selected>
+                Sélectionner une boutique
+              </option>
+              <option *ngFor="let store of availableStores" [value]="store.id">
+                {{ store.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback">La boutique est requise.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Date début</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="start_date"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Date fin</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="end_date"
+            />
+          </div>
+        </form>
+
+        <!-- STEP 2 -->
+        <form *ngIf="step === 2">
+          <!-- Gestion Produit -->
+          <div class="mb-4">
+            <h6 class="fw-bold border-bottom pb-2">Gestion Produit</h6>
+
+            <div class="ms-3 mt-2 form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="prodWithVar"
+                [checked]="newSubscriptionPermissions.prodWithVar === 1"
+                (change)="onPermissionToggle('prodWithVar', $event)"
+              />
+              <label class="form-check-label" for="prodWithVar"
+                >Avec Variants</label
+              >
+            </div>
+
+            <div class="ms-3 mt-2 form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="prodWithImg"
+                [checked]="newSubscriptionPermissions.prodWithImg === 1"
+                (change)="onPermissionToggle('prodWithImg', $event)"
+              />
+              <label class="form-check-label" for="prodWithImg"
+                >Avec Photo</label
+              >
+            </div>
+
+            <div class="ms-3 mt-2 form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="prodWithSearch"
+                [checked]="newSubscriptionPermissions.prodWithSearch === 1"
+                (change)="onPermissionToggle('prodWithSearch', $event)"
+              />
+              <label class="form-check-label" for="prodWithSearch"
+                >Avec Recherche</label
+              >
+            </div>
+
+            <div class="ms-3 mt-3">
+              <label class="form-label">Limite Produit</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newSubscriptionPermissions.prodLim"
+                name="prodLim"
+              />
+            </div>
+          </div>
+
+          <!-- Gestion Boutique -->
+          <div class="mb-4">
+            <h6 class="fw-bold border-bottom pb-2">Gestion Boutique</h6>
+
+            <div class="ms-3 mt-2 form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="withStoreTrue"
+                [checked]="newSubscriptionPermissions.withStore === 1"
+                (change)="setWithStore(1)"
+              />
+              <label class="form-check-label" for="withStoreTrue"
+                >Avec boutique</label
+              >
+            </div>
+
+            <div class="ms-3 mt-2 form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="withStoreFalse"
+                [checked]="newSubscriptionPermissions.withStore === 0"
+                (change)="setWithStore(0)"
+              />
+              <label class="form-check-label" for="withStoreFalse"
+                >Sans boutique</label
+              >
+            </div>
+          </div>
+
+          <!-- Gestion Achat -->
+          <div class="mb-4">
+            <h6 class="fw-bold border-bottom pb-2">Gestion Achat</h6>
+            <div class="ms-3">
+              <label class="form-label">Limite Achat</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newSubscriptionPermissions.purLim"
+                name="purLim"
+              />
+            </div>
+          </div>
+
+          <!-- Gestion Ventes -->
+          <div class="mb-4">
+            <h6 class="fw-bold border-bottom pb-2">Gestion Ventes</h6>
+            <div class="ms-3">
+              <label class="form-label">Limite Ventes</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newSubscriptionPermissions.salLim"
+                name="salLim"
+              />
+            </div>
+          </div>
+
+          <!-- Gestion Dépenses -->
+          <div class="mb-4">
+            <h6 class="fw-bold border-bottom pb-2">Gestion Dépenses</h6>
+            <div class="ms-3">
+              <label class="form-label">Limite Dépenses</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newSubscriptionPermissions.expLim"
+                name="expLim"
+              />
+            </div>
+          </div>
+
+          <!-- Multicomptes -->
+          <div class="mb-4">
+            <h6 class="fw-bold border-bottom pb-2">Multicomptes</h6>
+            <div class="ms-3">
+              <label class="form-label">Limite Comptes</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="newSubscriptionPermissions.prflLim"
+                name="prflLim"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer d-flex justify-content-between">
+        <button
+          *ngIf="step === 2"
+          class="btn btn-secondary"
+          type="button"
+          (click)="previousStep()"
+        >
+          Retour
+        </button>
+
+        <button
+          *ngIf="step === 1"
+          class="btn btn-primary ms-auto"
+          type="button"
+          (click)="nextStep()"
+          [disabled]="subscriptionForm.invalid"
+        >
+          Suivant
+        </button>
+
+        <button
+          *ngIf="step === 2"
+          class="btn btn-success ms-auto"
+          type="button"
+          (click)="ajouterSubscription()"
+        >
+          Valider
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
