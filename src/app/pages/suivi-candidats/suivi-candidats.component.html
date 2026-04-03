@@ -1,1 +1,141 @@
-<p>suivi-candidats works!</p>
+<div class="container-fluid py-4 px-3 bg-light min-vh-100">
+
+  <div class="d-flex align-items-center mb-4">
+    <a [routerLink]="['/home']" class="text-dark me-3 text-decoration-none">
+      <i class="bi bi-arrow-left fs-3"></i>
+    </a>
+    <h4 class="fw-bold mb-0">Suivi des Candidats</h4>
+  </div>
+
+  <div class="d-grid gap-4">
+
+    <div>
+      <h5 class="fw-bold text-dark mb-3">Séances futures</h5>
+
+      <div class="border-0 rounded-4 shadow-sm bg-white p-3 mb-3 border-start border-primary border-5">
+        <div class="mb-2">
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Candidat</small>
+          <div class="fw-bold fs-5">Ines Benali</div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Date</small>
+            <span class="fw-medium small">Lundi 30 Mars</span>
+          </div>
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Heure</small>
+            <span class="fw-medium small">10:00 — 11:00</span>
+          </div>
+          <div class="col-12 mt-2">
+            <span class="badge bg-primary-soft text-primary rounded-pill">Conduite</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+          <span class="small text-muted">Statut: <span class="text-primary fw-bold">Confirmé</span></span>
+          <button class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalSignalerAbsence">
+            Signaler absence
+          </button>
+        </div>
+      </div>
+
+      <div class="border-0 rounded-4 shadow-sm bg-white p-3 mb-3 border-start border-primary border-5">
+        <div class="mb-2">
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Candidat</small>
+          <div class="fw-bold fs-5">Alex Doe</div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Date</small>
+            <span class="fw-medium small">Mercredi 01 Avril</span>
+          </div>
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Heure</small>
+            <span class="fw-medium small">15:30 — 17:00</span>
+          </div>
+          <div class="col-12 mt-2">
+            <span class="badge bg-primary-soft text-primary rounded-pill">Créneau</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+          <span class="small text-muted">Statut: <span class="text-primary fw-bold">Confirmé</span></span>
+          <button class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalSignalerAbsence">
+            Signaler absence
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h5 class="fw-bold text-dark mb-3">Historique</h5>
+
+      <div class="border-0 rounded-4 shadow-sm bg-white p-3 mb-3 border-start border-success border-5">
+        <div class="mb-2">
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Candidat</small>
+          <div class="fw-bold fs-5">Anes Mahdi</div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Date</small>
+            <span class="fw-medium small">Samedi 28 Mars</span>
+          </div>
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Heure</small>
+            <span class="fw-medium small">09:00 — 10:00</span>
+          </div>
+          <div class="col-12 mt-2">
+            <span class="badge bg-success-soft text-success rounded-pill">Code</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-2 border-top text-muted">
+          <span class="small">Assiduité: <span class="text-success fw-bold">Présent</span></span>
+          <div class="d-flex gap-2 align-items-center">
+            <small class="italic" style="font-size: 0.7rem;"><i class="bi bi-lock-fill"></i> Verrouillé</small>
+            <button class="btn btn-light btn-sm border text-muted px-2" style="font-size: 0.7rem;" disabled>Changer absent</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-0 rounded-4 shadow-sm bg-white p-3 border-start border-danger border-5">
+        <div class="mb-2">
+          <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Candidat</small>
+          <div class="fw-bold fs-5">Ines Benali</div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <small class="text-muted d-block" style="font-size: 0.7rem;">Date</small>
+            <span class="fw-medium small">Jeudi 26 Mars</span>
+          </div>
+          <div class="col-6">
+             <small class="text-muted d-block" style="font-size: 0.7rem;">Type</small>
+             <span class="small">Conduite</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-2 border-top text-muted">
+          <span class="small">Assiduité: <span class="text-danger fw-bold">Absent</span></span>
+          <div class="d-flex gap-2 align-items-center">
+            <small class="italic" style="font-size: 0.7rem;"><i class="bi bi-lock-fill"></i> Verrouillé</small>
+            <button class="btn btn-light btn-sm border text-muted px-2" style="font-size: 0.7rem;" disabled>Changer présent</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalSignalerAbsence" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered px-4">
+    <div class="modal-content border-0 rounded-5 shadow-lg">
+      <div class="modal-body p-4 text-center">
+        <div class="mb-3 text-danger"><i class="bi bi-exclamation-circle fs-1"></i></div>
+        <h4 class="fw-bold text-dark mb-2">Signaler une absence</h4>
+        <p class="text-muted mb-4 small">Le candidat a-t-il prévenu de son absence ?</p>
+        <div class="d-grid gap-3">
+          <button type="button" class="btn btn-danger rounded-pill py-3 fw-bold border-0 shadow-sm">
+            <i class="bi bi-person-x-fill me-2 fs-5"></i> Rendre absent
+          </button>
+          <button type="button" class="btn btn-light rounded-pill py-3 text-dark fw-medium border-0" data-bs-dismiss="modal">Retour</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
