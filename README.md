@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # formula1_admin
+=======
+# formula1_instructor
+>>>>>>> 57bc820eda890f86d1422d34d8df31cbcf577675
 
 
 
@@ -16,14 +20,22 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
+<<<<<<< HEAD
 git remote add origin https://gitlab.com/formula-one1/formula1_admin.git
+=======
+git remote add origin https://gitlab.com/formula-one1/formula1_instructor.git
+>>>>>>> 57bc820eda890f86d1422d34d8df31cbcf577675
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
+<<<<<<< HEAD
 * [Set up project integrations](https://gitlab.com/formula-one1/formula1_admin/-/settings/integrations)
+=======
+* [Set up project integrations](https://gitlab.com/formula-one1/formula1_instructor/-/settings/integrations)
+>>>>>>> 57bc820eda890f86d1422d34d8df31cbcf577675
 
 ## Collaborate with your team
 
@@ -92,6 +104,7 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+<<<<<<< HEAD
 =======
 # MyApp
 
@@ -153,3 +166,5 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 >>>>>>> 15d6062 (push develop)
+=======
+>>>>>>> 57bc820eda890f86d1422d34d8df31cbcf577675

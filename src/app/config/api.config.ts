@@ -1,3 +1,4 @@
 export const API_CONFIG = {
-  apiUrl: 'https://infinity-prod.com/beta/napolitana/super-admin-api/',
+  //apiUrl: 'https://infinity-prod.com/beta/napolitana/super-admin-api/',
+  apiUrl: 'https://www.infinity-prod.com/beta/formula1/admin-api',
 };

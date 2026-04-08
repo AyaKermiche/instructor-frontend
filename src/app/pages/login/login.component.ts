@@ -31,7 +31,7 @@ export class LoginComponent {
 
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
-        this.router.navigate(['/candidats']);
+        this.router.navigate(['/home']);
       },
       error: (e) => {
         this.error = e.error?.message || 'An error occurred during login';

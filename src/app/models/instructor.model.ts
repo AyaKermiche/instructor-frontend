@@ -8,6 +8,7 @@ export interface Instructor {
   phone: string;
   specialty: string;
   hire_date: Date;
+  password?: string;
   driving_school_id: number | DrivingSchool;
   created_at: Date;
 }
