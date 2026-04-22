@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_CONFIG } from '../config/api.config';
 
@@ -7,71 +7,73 @@ import { API_CONFIG } from '../config/api.config';
   providedIn: 'root',
 })
 export class ApiService {
+
+  private baseUrl = API_CONFIG.apiUrl;
+
   constructor(private http: HttpClient) {}
 
-  getAll<T>(table: string, options: string = ''): Observable<T[]> {
-    return this.http.get<T[]>(
-      `${API_CONFIG.apiUrl}/records/${table}?${options}`,
-      { withCredentials: true }
-    );
+  // ================= HEADERS =================
+  private getHeaders(): HttpHeaders {
+  const token = localStorage.getItem('token');
+
+  return new HttpHeaders({
+    Authorization: token ? `Bearer ${token}` : ''
+  });
+}
+
+  // ================= SAFE QUERY BUILDER =================
+  private buildUrl(table: string, extra = ''): string {
+    const url = `${this.baseUrl}/api/${table}`;
+    return extra ? `${url}?${extra}` : url;
   }
 
-  count<T>(
-    table: string,
-    options: string = ''
-  ): Observable<{ results: number }> {
-    return this.http.get<{ results: number }>(
-      `${API_CONFIG.apiUrl}/records/${table}?page=1,0&${options}`,
-      { withCredentials: true }
-    );
+  // ================= CRUD =================
+  getAll<T>(table: string, options: string = ''): Observable<T[]> {
+    return this.http.get<T[]>(this.buildUrl(table, options), {
+      withCredentials: true
+    });
   }
 
   getOne<T>(table: string, id: number, options?: string): Observable<T> {
-    return this.http.get<T>(
-      `${API_CONFIG.apiUrl}/records/${table}/${id}?${options}`,
-      { withCredentials: true }
-    );
-  }
+  const url = options
+    ? `${this.baseUrl}/api/${table}/${id}?${options}`
+    : `${this.baseUrl}/api/${table}/${id}`;
+
+  return this.http.get<T>(url, {
+    withCredentials: true,
+    headers: this.getHeaders()   // ✅ ADD THIS
+  });
+}
 
   create<T>(table: string, data: any): Observable<T> {
-    return this.http.post<T>(`${API_CONFIG.apiUrl}/records/${table}`, data, {
+    return this.http.post<T>(`${this.baseUrl}/api/${table}`, data, {
       withCredentials: true,
     });
   }
 
   update<T>(table: string, id: number, data: any): Observable<T> {
-    return this.http.put<T>(
-      `${API_CONFIG.apiUrl}/records/${table}/${id}`,
-      data,
-      { withCredentials: true }
-    );
+    return this.http.put<T>(`${this.baseUrl}/api/${table}/${id}`, data, {
+      withCredentials: true,
+      headers: this.getHeaders()
+    });
   }
 
   delete(table: string, id: number): Observable<void> {
-    return this.http.delete<void>(
-      `${API_CONFIG.apiUrl}/records/${table}/${id}`,
-      { withCredentials: true }
-    );
-  }
-
-  addFile<T>(api: string, formData: FormData): Observable<T> {
-    return this.http.post<T>(`${API_CONFIG.apiUrl}/${api}`, formData, {
+    return this.http.delete<void>(`${this.baseUrl}/api/${table}/${id}`, {
       withCredentials: true,
     });
   }
 
-  getStat<T>(date1: string = '', date2: string = ''): Observable<T> {
-    return this.http.get<T>(
-      `${API_CONFIG.apiUrl}/dashboard-stat/${date1}/${date2}`,
-      { withCredentials: true }
-    );
+  // ================= CUSTOM =================
+  getCustom<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}/api/${endpoint}`, {
+      headers: this.getHeaders()
+    });
   }
 
-  exportStat(type: string = '', date1: string = '', date2: string = '') {
-    //go to url in new tab
-    window.open(
-      `${API_CONFIG.apiUrl}/export-stat/${type}/${date1}/${date2}`,
-      '_blank'
-    );
+  putCustom<T>(endpoint: string, data: any): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}/api/${endpoint}`, data, {
+      headers: this.getHeaders()
+    });
   }
 }

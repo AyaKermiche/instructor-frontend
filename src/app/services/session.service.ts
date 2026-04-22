@@ -11,6 +11,10 @@ export class SessionService {
 
   constructor(private apiService: ApiService) {}
 
+  // ======================
+  // EXISTING CRUD (KEEP)
+  // ======================
+
   getAll(options?: string): Observable<Session[]> {
     return this.apiService.getAll<Session>(this.TABLE, options).pipe(
       map((res: any) => res.records || [])
@@ -32,4 +36,29 @@ export class SessionService {
   delete(id: number): Observable<void> {
     return this.apiService.delete(this.TABLE, id);
   }
+
+  // ======================
+  // NEW BACKEND FUNCTIONS
+  // ======================
+
+  /**
+   * Get today's sessions for logged instructor
+   * Backend: GET /api/sessions/today
+   */
+  getTodaySessions(): Observable<Session[]> {
+    return this.apiService.getCustom<Session[]>('session/today');
+  }
+
+  /**
+   * Update session (presence, status, etc.)
+   * Backend: PUT /api/sessions/:id
+   */
+  updateSession(id: number, data: Partial<Session>): Observable<Session> {
+    return this.apiService.putCustom<Session>(`session/${id}`, data);
+  }
+
+  getByInstructor(id: number): Observable<any[]> {
+  return this.apiService
+    .getCustom<any[]>(`session/instructor/${id}`);
+}
 }

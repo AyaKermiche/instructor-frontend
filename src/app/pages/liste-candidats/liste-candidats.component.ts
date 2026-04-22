@@ -2,7 +2,7 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-liste-candidats',
@@ -11,43 +11,46 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './liste-candidats.component.html'
 })
 export class ListeCandidatsComponent implements OnInit {
+
   candidates = signal<any[]>([]);
   searchText = signal<string>('');
-  
-  // Get this from your Auth process/LocalStorage
-  instructorId: number = 1; 
+
+  instructorId: number = 1;
 
   filteredCandidates = computed(() => {
     const query = this.searchText().toLowerCase().trim();
+
     if (!query) return this.candidates();
-    return this.candidates().filter(c => 
-      `${c.first_name} ${c.last_name}`.toLowerCase().includes(query)
+
+    return this.candidates().filter(c =>
+      `${c.firstName} ${c.lastName}`.toLowerCase().includes(query)
     );
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
-    // Try to get the real ID from storage if it exists
     const storedId = localStorage.getItem('userId');
     if (storedId) this.instructorId = Number(storedId);
-    
-    this.fetchInstructorCandidates();
+
+    this.loadCandidatesFromSessions();
   }
 
-  fetchInstructorCandidates() {
-    /** * Filtering Strategy:
-     * We add a filter to the API call so the database only returns 
-     * candidates where instructor_id equals our current ID.
-     */
-    const filterPath = `?filter=instructor_id,eq,${this.instructorId}`;
-    const apiUrl = `https://www.infinity-prod.com/beta/formula1/admin-api/records/candidate${filterPath}`;
+  loadCandidatesFromSessions() {
+    this.sessionService.getByInstructor(this.instructorId).subscribe({
+      next: (sessions: any[]) => {
 
-    this.http.get<any>(apiUrl).subscribe({
-      next: (res) => {
-        this.candidates.set(res.records || []);
+        // Extract candidates
+        const candidates = sessions.map(s => s.candidate);
+
+        // Remove duplicates
+        const unique = Array.from(
+          new Map(candidates.map(c => [c.id, c])).values()
+        );
+
+        this.candidates.set(unique);
       },
-      error: (err) => console.error('Erreur lors du filtrage:', err)
+      error: (err) => console.error(err)
     });
   }
 
@@ -55,7 +58,6 @@ export class ListeCandidatsComponent implements OnInit {
     const s = step?.toLowerCase();
     if (s === 'conduite') return { color: 'primary', icon: 'bi-car-front-fill' };
     if (s === 'code') return { color: 'success', icon: 'bi-book-fill' };
-    if (s === 'créneau') return { color: 'warning', icon: 'bi-cone-striped' };
     return { color: 'secondary', icon: 'bi-person' };
   }
 }

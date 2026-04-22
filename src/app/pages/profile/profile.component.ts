@@ -14,7 +14,7 @@ import { InstructorService } from '../../services/instructor.service';
 export class ProfileComponent implements OnInit {
 
   instructor: any = null;
-  instructorId: number = 1; // TEMP (API limitation)
+  instructorId!: number;
 
   editForm!: FormGroup;
   passwordForm!: FormGroup;
@@ -34,9 +34,18 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initForms();
-    this.loadInstructorData();
+  const storedId = localStorage.getItem('userId');
+
+  if (!storedId) {
+    console.error('No instructorId in localStorage');
+    return;
   }
+
+  this.instructorId = Number(storedId);
+
+  this.initForms();           // ✅ FIRST
+  this.loadInstructorData();  // THEN API
+}
 
   // ================= FORMS =================
   initForms() {
@@ -58,16 +67,13 @@ export class ProfileComponent implements OnInit {
     return newPass === confirm ? null : { mismatch: true };
   }
 
-  // ================= LOAD DATA =================
+  // ================= LOAD =================
   loadInstructorData() {
     this.isLoading = true;
 
     this.instructorService.getById(this.instructorId).subscribe({
       next: (res: any) => {
-        this.instructor = {
-          ...res,
-          hire_date: new Date(res.hire_date)
-        };
+        this.instructor = res;
 
         this.editForm.patchValue({
           email: res.email,
@@ -76,7 +82,7 @@ export class ProfileComponent implements OnInit {
 
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching profile', err);
         this.instructor = null;
         this.isLoading = false;
@@ -94,22 +100,19 @@ export class ProfileComponent implements OnInit {
 
     this.instructorService.update(this.instructorId, this.editForm.value).subscribe({
       next: () => {
-        this.instructor = {
-          ...this.instructor,
-          ...this.editForm.value
-        };
-
         this.isUpdating = false;
         this.updateSuccess = true;
+        this.loadInstructorData();
       },
-      error: () => {
+      error: (err) => {
+        console.error(err);
         this.isUpdating = false;
         this.updateError = true;
       }
     });
   }
 
-  // ================= UPDATE PASSWORD =================
+  // ================= PASSWORD =================
   onUpdatePassword() {
     if (this.passwordForm.invalid) return;
 
@@ -126,7 +129,8 @@ export class ProfileComponent implements OnInit {
         this.passwordForm.reset();
         this.passwordSuccess = true;
       },
-      error: () => {
+      error: (err) => {
+        console.error(err);
         this.passwordError = true;
       }
     });
@@ -135,7 +139,7 @@ export class ProfileComponent implements OnInit {
   // ================= HELPERS =================
   get fullName(): string {
     return this.instructor
-      ? `${this.instructor.first_name} ${this.instructor.last_name}`
+      ? `${this.instructor.firstName} ${this.instructor.lastName}`
       : '';
   }
 
@@ -149,83 +153,3 @@ export class ProfileComponent implements OnInit {
     });
   }
 }
-
-/*import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { InstructorService } from '../../services/instructor.service';
-
-@Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
-})
-export class ProfileComponent implements OnInit {
-  instructor: any = null;
-  editForm!: FormGroup;
-  passwordForm!: FormGroup;
-  instructorId: number = 1; // Replace with: Number(localStorage.getItem('userId'))
-
-  constructor(
-    private fb: FormBuilder,
-    private instructorService: InstructorService
-  ) {}
-
-  ngOnInit() {
-    this.initForms();
-    this.loadInstructorData();
-  }
-
-  initForms() {
-    this.editForm = this.fb.group({
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required]
-    });
-
-    this.passwordForm = this.fb.group({
-      currentPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator });
-  }
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('newPassword')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
-  }
-
-  loadInstructorData() {
-    this.instructorService.getById(this.instructorId).subscribe({
-      next: (res: any) => {
-        this.instructor = res;
-        this.editForm.patchValue(res);
-      },
-      error: (err) => console.error('Error fetching profile', err)
-    });
-  }
-
-  onUpdateProfile() {
-    if (this.editForm.valid) {
-      this.instructorService.update(this.instructorId, this.editForm.value).subscribe({
-        next: () => {
-          this.loadInstructorData();
-          // You might want to show a success toast here
-        }
-      });
-    }
-  }
-
-  onUpdatePassword() {
-    if (this.passwordForm.valid) {
-      const payload = { password: this.passwordForm.value.newPassword };
-      this.instructorService.update(this.instructorId, payload).subscribe({
-        next: () => this.passwordForm.reset()
-      });
-    }
-  }
-}*/

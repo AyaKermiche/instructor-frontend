@@ -28,52 +28,7 @@ export class NotificationComponent implements OnInit {
     this.loadExamNotifications();
   }
 
-  /*loadExamNotifications() {
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-
-    const todayStr = this.formatDate(today);
-    const tomorrowStr = this.formatDate(tomorrow);
-
-    // API: Fetch exams where date is BETWEEN today and tomorrow for this instructor
-    // Note: Use your actual domain here
-    const url = `https://www.infinity-prod.com/beta/formula1/admin-api/records/exam?join=candidate&filter=candidate.instructor_id,eq,${this.instructorId}&filter=exam_date,ge,${todayStr}&filter=exam_date,le,${tomorrowStr}`;
-
-    this.http.get<any>(url).subscribe({
-      next: (res) => {
-        this.notifications.set(res.records || []);
-      },
-      error: (err) => console.error('Notification error:', err)
-    });
-  }*/
-
-    /*loadExamNotifications() {
-  const todayStr = this.formatDate(new Date());
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStr = this.formatDate(tomorrow);
-
-  // WE REMOVE the nested filter 'candidate.instructor_id' that caused the 500 error.
-  // Instead, we fetch exams by date and join the candidate just for the display names.
-  const url = `https://www.infinity-prod.com/beta/formula1/admin-api/records/exam?join=candidate&filter=exam_date,ge,${todayStr}&filter=exam_date,le,${tomorrowStr}`;
-
-  this.http.get<any>(url).subscribe({
-    next: (res) => {
-      // Because we can't filter the instructor in the URL easily without a crash,
-      // we filter the results in TypeScript (client-side) instead.
-      const allExams = res.records || [];
-      
-      const filtered = allExams.filter((exam: any) => {
-        // Only keep exams where the candidate belongs to this instructor
-        return exam.candidate?.instructor_id == this.instructorId;
-      });
-
-      this.notifications.set(filtered);
-    },
-    error: (err) => console.error('Notification error:', err)
-  });
-}*/
+  
 
 loadExamNotifications() {
   const todayStr = this.formatDate(new Date());

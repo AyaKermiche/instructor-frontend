@@ -1,4 +1,42 @@
+
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss'
+})
+export class NavbarComponent implements OnInit {
+
+  instructorName: string = 'Chargement...';
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.instructorName = `${user.firstName} ${user.lastName}`;
+      } else {
+        this.instructorName = 'Mon Compte';
+      }
+    });
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+}
+
+/*import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { InstructorService } from '../../services/instructor.service';
@@ -40,4 +78,4 @@ export class NavbarComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
-}
+}*/
