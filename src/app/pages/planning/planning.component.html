@@ -1,54 +1,76 @@
-<div class="container-fluid py-4 px-3 bg-light min-vh-100">
+<div class="planning-page container-fluid py-4 px-3 min-vh-100">
   
+  <!-- HEADER -->
   <div class="d-flex align-items-center mb-4">
-    <a [routerLink]="['/home']" class="text-dark me-3 text-decoration-none">
-      <i class="bi bi-arrow-left fs-3"></i>
+    <a [routerLink]="['/home']" class="back-btn me-3">
+      <i class="bi bi-arrow-left"></i>
     </a>
-    <h4 class="fw-bold mb-0">Planning Semaine</h4>
+    <h4 class="fw-bold mb-0">Planning</h4>
   </div>
 
-  <div class="accordion d-grid gap-3" id="planningAccordion">
-    
-    <div *ngFor="let day of days" class="border-0 rounded-4 shadow-sm overflow-hidden bg-white">
-      
-      <div class="d-flex justify-content-between align-items-center p-3 bg-secondary bg-opacity-10" 
-           role="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + day.id">
-<span class="fw-bold text-dark">
-  {{ day.label }} ({{ (groupedSchedules[day.dayIndex] || []).length }})
-</span>        <i class="bi bi-chevron-down text-muted"></i>
+  <!-- DAYS -->
+  <div class="planning-list">
+
+    <div *ngFor="let day of days" class="day-card">
+
+      <!-- DAY HEADER -->
+      <div 
+        class="day-top"
+        data-bs-toggle="collapse"
+        [attr.data-bs-target]="'#' + day.id"
+      >
+        <div>
+          <div class="day-title">{{ day.label }}</div>
+          <div class="day-count">
+            {{ (groupedSchedules[day.dayIndex] || []).length }} séances
+          </div>
+        </div>
+
+        <i class="bi bi-chevron-down"></i>
       </div>
 
-      <div [id]="day.id" class="collapse" data-bs-parent="#planningAccordion">
-        <div class="p-3">
-          
-          <div *ngIf="!groupedSchedules[day.dayIndex] || groupedSchedules[day.dayIndex].length === 0" class="text-center text-muted py-3">
+      <!-- CONTENT -->
+      <div [id]="day.id" class="collapse">
+
+        <div class="day-content">
+
+          <!-- EMPTY -->
+          <div 
+            *ngIf="!groupedSchedules[day.dayIndex] || groupedSchedules[day.dayIndex].length === 0"
+            class="empty-state"
+          >
             Aucune séance prévue
           </div>
 
-          <div *ngFor="let session of groupedSchedules[day.dayIndex]; let last = last">
-            <div class="d-flex justify-content-between align-items-start mb-4">
-              <div>
-                <div class="fw-bold fs-5 text-dark">
-                  {{ session.startTime | date:'HH:mm' }} - {{ session.endTime | date:'HH:mm' }}
+          <!-- SESSIONS -->
+          <div *ngFor="let session of groupedSchedules[day.dayIndex]">
+
+            <div class="session-card">
+
+              <div class="session-left">
+                <div class="session-time">
+                  {{ session.startTime | date:'HH:mm' }} — {{ session.endTime | date:'HH:mm' }}
                 </div>
-                <div class="text-muted small">MONITEUR: <span class="fw-medium text-dark">{{ session.instructor?.lastName }}</span></div>
-                <div class="text-muted small">DISPO: <span class="fw-medium text-dark">{{ session.isAvailable ? 'Oui' : 'Non' }}</span></div>
+
+          
               </div>
-              <span class="badge rounded-pill px-3 py-2 border"
-                    [class.bg-success-soft]="session.isAvailable"
-                    [class.text-success]="session.isAvailable"
-                    [class.border-success]="session.isAvailable"
-                    [class.bg-warning-soft]="!session.isAvailable"
-                    [class.text-warning]="!session.isAvailable"
-                    [class.border-warning]="!session.isAvailable">
-                {{ session.isAvailable ? 'LIBRE' : 'OCCUPÉ' }}
-              </span>
+
+              <div 
+                class="session-status"
+                [class.free]="session.isAvailable"
+                [class.busy]="!session.isAvailable"
+              >
+                {{ session.isAvailable ? 'Libre' : 'Occupé' }}
+              </div>
+
             </div>
-            <hr *ngIf="!last" class="opacity-10">
+
           </div>
 
         </div>
+
       </div>
+
     </div>
 
   </div>

@@ -1,0 +1,46 @@
+/* Light soft background */
+.login-page {
+  background: linear-gradient(135deg, #e6ecf3, #cbe0f7);
+}
+
+/* Card */
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
+}
+
+/* Inputs */
+.custom-input {
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.custom-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+}
+
+/* Button */
+.login-btn {
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #4f95e6, #3e82c7);
+  color: white;
+  border: none;
+  transition: 0.2s;
+}
+
+.login-btn:hover {
+  opacity: 0.95;
+}
+
+/* Labels */
+.form-label {
+  font-weight: 500;
+  color: #444;
+}

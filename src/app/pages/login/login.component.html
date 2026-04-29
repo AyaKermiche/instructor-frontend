@@ -1,16 +1,16 @@
-<div
-  class="container d-flex justify-content-center align-items-center min-vh-100"
->
-  <div class="card p-4 shadow" style="width: 100%; max-width: 400px">
+<div class="login-page d-flex justify-content-center align-items-center min-vh-100">
+  <div class="login-card p-4 m-2">
     <h2 class="text-center mb-4">Login</h2>
+
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input
           type="text"
           id="username"
           name="username"
-          class="form-control"
+          class="form-control custom-input"
           [(ngModel)]="username"
           required
         />
@@ -22,21 +22,20 @@
           type="password"
           id="password"
           name="password"
-          class="form-control"
+          class="form-control custom-input"
           [(ngModel)]="password"
           required
         />
       </div>
 
-      <!-- Error Message Display -->
       <div *ngIf="error" class="alert alert-danger text-center">
         {{ error }}
       </div>
 
-      <!-- Submit Button with Loading State -->
-      <button type="submit" class="btn btn-primary w-100" [disabled]="loading">
+      <button type="submit" class="btn login-btn w-100" [disabled]="loading">
         {{ loading ? "Logging in..." : "Login" }}
       </button>
+
     </form>
   </div>
 </div>

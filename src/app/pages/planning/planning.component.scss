@@ -1,0 +1,103 @@
+/* Page */
+.planning-page {
+  background: #f6f8fb;
+}
+
+/* Back button */
+.back-btn {
+  font-size: 1.4rem;
+  color: #444;
+}
+
+/* Day card */
+.day-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 0;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+/* Header of day */
+.day-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.day-top:hover {
+  background: #fafbff;
+}
+
+/* Day title */
+.day-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+/* Count */
+.day-count {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Content */
+.day-content {
+  padding: 0 16px 16px 16px;
+}
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 20px 0;
+}
+
+/* Session card */
+.session-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f9fafc;
+  margin-top: 10px;
+}
+
+/* Time */
+.session-time {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+/* Meta */
+.session-meta {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+/* Status */
+.session-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+/* Free */
+.session-status.free {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Busy */
+.session-status.busy {
+  background: #fff3e0;
+  color: #ef6c00;
+}
