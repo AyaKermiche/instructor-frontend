@@ -49,7 +49,7 @@
 
               <div class="session-left">
                 <div class="session-time">
-                  {{ session.startTime | date:'HH:mm' }} — {{ session.endTime | date:'HH:mm' }}
+                  {{ formatTime(session.startTime) }} — {{ formatTime(session.endTime) }}
                 </div>
 
           

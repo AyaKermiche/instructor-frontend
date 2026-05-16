@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 })
 export class InstructorPlanningService {
   // This matches the prefix in your Express router
-  private readonly TABLE = 'instructor-planning';
+  private readonly TABLE = 'planning';
 
   constructor(private apiService: ApiService) {}
 
