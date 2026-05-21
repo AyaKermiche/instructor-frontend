@@ -45,6 +45,9 @@ export class PlanningComponent implements OnInit {
           endTime:     s.endTime     || s.end_time,
           scheduleDay: s.scheduleDay ?? s.schedule_day,
           isAvailable: s.isAvailable ?? s.is_available,
+
+            typeSession: s.typeSession || s.type_session || s.sessionType
+
         }));
         this.groupData(normalized);
       },

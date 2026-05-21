@@ -114,27 +114,27 @@ export class ProfileComponent implements OnInit {
 
   // ================= PASSWORD =================
   onUpdatePassword() {
-    if (this.passwordForm.invalid) return;
+  if (this.passwordForm.invalid) return;
 
-    this.passwordSuccess = false;
-    this.passwordError = false;
+  this.passwordSuccess = false;
+  this.passwordError = false;
 
-    const payload = {
-      currentPassword: this.passwordForm.value.currentPassword,
-      newPassword: this.passwordForm.value.newPassword
-    };
+  const payload = {
+    currentPassword: this.passwordForm.value.currentPassword,
+    newPassword: this.passwordForm.value.newPassword
+  };
 
-    this.instructorService.updatePassword(this.instructorId, payload).subscribe({
-      next: () => {
-        this.passwordForm.reset();
-        this.passwordSuccess = true;
-      },
-      error: (err) => {
-        console.error(err);
-        this.passwordError = true;
-      }
-    });
-  }
+  this.instructorService.updatePassword(this.instructorId, payload).subscribe({
+    next: () => {
+      this.passwordForm.reset();
+      this.passwordSuccess = true;
+    },
+    error: (err) => {
+      console.error(err);
+      this.passwordError = true;
+    }
+  });
+}
 
   // ================= HELPERS =================
   get fullName(): string {

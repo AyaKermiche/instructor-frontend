@@ -76,4 +76,12 @@ export class ApiService {
       headers: this.getHeaders()
     });
   }
+
+
+patchCustom<T>(endpoint: string, data: any): Observable<T> {
+  return this.http.patch<T>(`${this.baseUrl}/api/${endpoint}`, data, {
+    headers: this.getHeaders()
+  });
+}
+
 }

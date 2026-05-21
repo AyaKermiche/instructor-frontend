@@ -165,6 +165,12 @@ export class InstructorService {
   }
 
   updatePassword(id: number, data: any): Observable<any> {
-    return this.apiService.update(this.TABLE, id, { password: data.newPassword });
-  }
+  return this.apiService.patchCustom(
+    `instructor/${id}/password`,
+    {
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword
+    }
+  );
+}
 }

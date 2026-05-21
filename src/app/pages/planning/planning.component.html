@@ -55,15 +55,16 @@
           
               </div>
 
-              <div 
+              <!--<div 
                 class="session-status"
                 [class.free]="session.isAvailable"
                 [class.busy]="!session.isAvailable"
               >
                 {{ session.isAvailable ? 'Libre' : 'Occupé' }}
-              </div>
+              </div>-->
+              <div class="session-status">{{ session.typeWork }}</div>
 
-            </div>
+            </div> 
 
           </div>
 
